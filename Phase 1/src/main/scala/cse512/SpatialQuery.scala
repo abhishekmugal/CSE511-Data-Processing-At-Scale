@@ -85,16 +85,16 @@ object SpatialQuery extends App{
         // YOU NEED TO FILL IN THIS USER DEFINED FUNCTION
         spark.udf.register("ST_Within",(pointString1:String, pointString2:String, distance:Double)=>{
             val point1Arr = pointString1.split(",")
-            var x1 = point1Arr(0).toFloat
-            var y1 = point1Arr(1).toFloat
+            var x1 = point1Arr(0).toDouble
+            var y1 = point1Arr(1).toDouble
 
             val point2Arr = pointString2.split(",")
-            var x2 = point2Arr(0).toFloat
-            var y2 = point2Arr(1).toFloat
+            var x2 = point2Arr(0).toDouble
+            var y2 = point2Arr(1).toDouble
 
             // Calculate the Euclidean distance between two points
             var calDistance = sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2))
-            if (calDistance <= distance.toFloat)
+            if (calDistance <= distance)
                 true
             else
                 false
