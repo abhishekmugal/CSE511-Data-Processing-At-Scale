@@ -64,7 +64,7 @@ object HotcellUtils {
      *         7 - if point lies on x, y, and z boundary
      *         26 - otherwise
      */
-    def calculateAdjacentHotcell( minX: Int, minY: Int, minZ: Int, maxX: Int, maxY: Int, maxZ: Int, X: Int, Y: Int, Z: Int): Int = {
+    def computeAdjacentHotcell( minX: Int, minY: Int, minZ: Int, maxX: Int, maxY: Int, maxZ: Int, X: Int, Y: Int, Z: Int): Int = {
         var count = 0
 
         // 4 cases - if it's on 1 axis boundary, 2 axis boundary, 3 axis boundary, no boundary
@@ -78,13 +78,13 @@ object HotcellUtils {
             count += 1
         }
         if (count == 1) {
-            17
+            18
         } else if (count == 2) {
-            11
+            12
         } else if (count == 3) {
-            7
+            8
         } else {
-            26
+            27
         }
     }
 
@@ -100,8 +100,10 @@ object HotcellUtils {
      * @param std - standard deviation
      * @return - G score
      */
-    def ZScore(numCells: Int, x: Int, y: Int, z: Int, adjacentHotcell: Int, number: Int , avg: Double, std: Double): Double = {
-        (number.toDouble - (avg * adjacentHotcell.toDouble)) / (std * math.sqrt((( adjacentHotcell.toDouble * numCells.toDouble) - (adjacentHotcell.toDouble * adjacentHotcell.toDouble)) / (numCells.toDouble - 1.0)))
+    def GScore(numCells: Int, x: Int, y: Int, z: Int, adjacentHotcell: Int, cellNumber: Int , avg: Double, stdDev: Double): Double = {
+        var adjHotCell: Double = adjacentHotcell.toDouble
+        var numOfCells: Double = numCells.toDouble
+        (cellNumber.toDouble - (avg * adjHotCell)) / (stdDev * math.sqrt((( adjHotCell * numOfCells) - (adjHotCell * adjHotCell)) / (numOfCells - 1.0)))
     }
 
 }
