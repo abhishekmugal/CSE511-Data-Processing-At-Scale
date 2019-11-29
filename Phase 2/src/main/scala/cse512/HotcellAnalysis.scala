@@ -67,9 +67,9 @@ object HotcellAnalysis {
         var adjacentHotcell = adHotCellNumber.withColumn("adjacentHotcell", calculateNumberAdjFunc(lit(minX), lit(minY), lit(minZ), lit(maxX), lit(maxY), lit(maxZ), col("x"), col("y"), col("z")))
 
         // User defined function to calculate G (Getis-Ord) based on the calculated information
-        var gScoreFunc = udf((numCells: Int, x: Int, y: Int, z: Int, adjacentHotcell: Int, cellNumber: Int, avg: Double, stdDev: Double) => HotcellUtils.GScore(numCells, x, y, z, adjacentHotcell, cellNumber, avg, stdDev))
-        var gScoreHotCell = adjacentHotcell.withColumn("gScore", gScoreFunc(lit(numCells), col("x"), col("y"), col("z"), col("adjacentHotcell"), col("cellNumber"), lit(avg), lit(stdDev))).orderBy(desc("gScore"))
-        gScoreHotCell.show()
+        var gScoreFunc = udf((numCells: Int , x: Int, y: Int, z: Int, adjacentHotcell: Int, cellNumber: Int, avg: Double, stdDev: Double) => HotcellUtils.GScore(numCells, x, y, z, adjacentHotcell, cellNumber, avg, stdDev))
+        var gScoreHotCell = adjacentHotcell.withColumn("gScore", gScoreFunc(lit(numCells), col("x"), col("y"), col("z"), col("adjacentHotcell"), col("cellNumber"), lit(avg), lit(stdDev))).orderBy(desc("gScore")).limit(50)
+        //gScoreHotCell.show()
 
         pickupInfo = gScoreHotCell.select(col("x"), col("y"), col("z"))
         pickupInfo

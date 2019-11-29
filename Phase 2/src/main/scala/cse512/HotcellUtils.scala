@@ -59,32 +59,32 @@ object HotcellUtils {
      * @param X - x coordinate of a given point
      * @param Y - y coordinate of a given point
      * @param Z - z coordinate of a given point
-     * @return 17 - if point lies on x-boundary
-     *         11 - if point lies on x and y boundary
-     *         7 - if point lies on x, y, and z boundary
-     *         26 - otherwise
+     * @return 18 - if point lies on x-boundary
+     *         12 - if point lies on x and y boundary
+     *         8 - if point lies on x, y, and z boundary
+     *         27 - otherwise
      */
     def computeAdjacentHotcell( minX: Int, minY: Int, minZ: Int, maxX: Int, maxY: Int, maxZ: Int, X: Int, Y: Int, Z: Int): Int = {
         var count = 0
 
-        // 4 cases - if it's on 1 axis boundary, 2 axis boundary, 3 axis boundary, no boundary
+        // Cell is on X-boundary
         if (X == minX || X == maxX) {
             count += 1
         }
+        // Cell is on X-boundary and Y-boundary
         if (Y == minY || Y == maxY) {
             count += 1
         }
+        // Cell is on X-boundary, Y-boundary, and Z-boundary
         if (Z == minZ || Z == maxZ) {
             count += 1
         }
-        if (count == 1) {
-            18
-        } else if (count == 2) {
-            12
-        } else if (count == 3) {
-            8
-        } else {
-            27
+
+        count match {
+            case 1 => 18
+            case 2 => 12
+            case 3 => 8
+            case _ => 27
         }
     }
 
